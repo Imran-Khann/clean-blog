@@ -18,59 +18,20 @@
 		<div class="container">
 		    <div class="row">
 		        <div class="col-lg-8 col-md-10 mx-auto">
-		            <div class="post-preview">
-		                <router-link to="/sample-post">
+		            <div class="post-preview" v-for="post in posts">
+		                <router-link :to="'/sample-post/'+post.slug">
 		                    <h2 class="post-title">
-		                    Man must explore, and this is exploration at its greatest
+		                    	{{post.title}}
 		                    </h2>
 		                    <h3 class="post-subtitle">
-		                    Problems look mighty small from 150 miles up
+		                    	{{post.description}}
 		                    </h3>
 		                </router-link>
 		                <p class="post-meta">Posted by
-		                    <router-link to="/">Start Bootstrap</router-link>
-		                on September 24, 2019</p>
+		                    <router-link :to="'/user/profile/'+post.user.name">{{post.user.name}}</router-link>
+		                {{post.created_at}}</p>
+		                <hr>
 		            </div>
-		            <hr>
-		            <div class="post-preview">
-		                <router-link to="/sample-post">
-		                    <h2 class="post-title">
-		                    I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
-		                    </h2>
-		                </router-link>
-		                <p class="post-meta">Posted by
-		                    <router-link to="/">Start Bootstrap</router-link>
-		                on September 18, 2019</p>
-		            </div>
-		            <hr>
-		            <div class="post-preview">
-		                <router-link to="/sample-post">
-		                    <h2 class="post-title">
-		                    Science has not yet mastered prophecy
-		                    </h2>
-		                    <h3 class="post-subtitle">
-		                    We predict too much for the next year and yet far too little for the next ten.
-		                    </h3>
-		                </router-link>
-		                <p class="post-meta">Posted by
-		                    <router-link to="/">Start Bootstrap</router-link>
-		                on August 24, 2019</p>
-		            </div>
-		            <hr>
-		            <div class="post-preview">
-		                <router-link to="/sample-post">
-		                    <h2 class="post-title">
-		                    Failure is not an option
-		                    </h2>
-		                    <h3 class="post-subtitle">
-		                    Many say exploration is part of our destiny, but it’s actually our duty to future generations.
-		                    </h3>
-		                </router-link>
-		                <p class="post-meta">Posted by
-		                    <router-link to="/">Start Bootstrap</router-link>
-		                on July 8, 2019</p>
-		            </div>
-		            <hr>
 		            <!-- Pager -->
 		            <div class="clearfix">
 		                <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
@@ -88,12 +49,25 @@
 		props : [],
 		data(){
 			return {
-
+				posts : []
 			}
 		},
 		mounted(){},
-		created(){},
+		created(){
+			this.getPosts();
+		},
 		computed : {},
-		methods : {},
+		methods : {
+			getPosts(){
+				axios.get('/api/post')
+					.then(res => {
+						if(res.status == 200){
+							this.posts = res.data.posts;
+						}
+					}).catch(err => {
+						console.log(err);
+					})
+			}
+		},
 	}
 </script>

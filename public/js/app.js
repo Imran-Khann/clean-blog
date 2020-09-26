@@ -2138,6 +2138,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {},
+  props: [],
+  data: function data() {
+    return {
+      posts: []
+    };
+  },
+  mounted: function mounted() {},
+  created: function created() {
+    this.getPosts();
+  },
+  computed: {},
+  methods: {
+    getPosts: function getPosts() {
+      var _this = this;
+
+      axios.get('/api/post').then(function (res) {
+        if (res.status == 200) {
+          _this.posts = res.data.posts;
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CreatePost.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CreatePost.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -2181,12 +2224,31 @@ __webpack_require__.r(__webpack_exports__);
   components: {},
   props: [],
   data: function data() {
-    return {};
+    return {
+      title: "",
+      description: ""
+    };
   },
   mounted: function mounted() {},
   created: function created() {},
   computed: {},
-  methods: {}
+  methods: {
+    createPost: function createPost() {
+      var _this = this;
+
+      axios.post('/api/post', {
+        title: this.title,
+        description: this.description,
+        user_id: 1
+      }).then(function (res) {
+        if (res.status == 200) {
+          _this.$router.push('/');
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2309,20 +2371,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {},
   props: [],
   data: function data() {
-    return {};
+    return {
+      email: "",
+      password: ""
+    };
   },
   mounted: function mounted() {},
   created: function created() {},
   computed: {},
   methods: {
     submitForm: function submitForm() {
-      alert('trying to submit form');
+      axios.post('/api/login', {
+        email: this.email,
+        password: this.password
+      }).then(function (res) {
+        // console.log(res);
+        if (res.status == 200) {
+          localStorage.setItem('loggedIn', true); // window.Location('/');
+
+          window.location.href = "/";
+        }
+      })["catch"](function (err) {
+        alert('invalid Credentials');
+      });
     }
   }
 });
@@ -2372,6 +2447,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {},
+  props: [],
+  data: function data() {
+    return {};
+  },
+  mounted: function mounted() {},
+  created: function created() {},
+  computed: {
+    loginStatus: function loginStatus() {
+      return localStorage.getItem('loggedIn') === 'true' ? true : false;
+    }
+  },
+  methods: {
+    logout: function logout() {
+      localStorage.setItem('loggedIn', false); // this.$router.push('/');
+
+      window.location.href = "/";
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/NotFound.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/NotFound.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {},
   props: [],
@@ -2386,10 +2508,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/NotFound.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/NotFound.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Profile.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Profile.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2492,16 +2614,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {},
   props: [],
   data: function data() {
-    return {};
+    return {
+      post: ""
+    };
   },
-  mounted: function mounted() {},
-  created: function created() {},
+  mounted: function mounted() {// console.log('we are in here')
+  },
+  created: function created() {
+    this.getPost();
+  },
   computed: {},
-  methods: {}
+  methods: {
+    getPost: function getPost() {
+      var _this = this;
+
+      // console.log(this.$route.params.slug);
+      axios.get('/api/post/' + this.$route.params.slug).then(function (res) {
+        if (res.status == 200) {
+          _this.post = res.data.post[0];
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -38415,147 +38557,62 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "container" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-lg-8 col-md-10 mx-auto" }, [
-          _c(
-            "div",
-            { staticClass: "post-preview" },
-            [
-              _c("router-link", { attrs: { to: "/sample-post" } }, [
-                _c("h2", { staticClass: "post-title" }, [
-                  _vm._v(
-                    "\n\t                    Man must explore, and this is exploration at its greatest\n\t                    "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("h3", { staticClass: "post-subtitle" }, [
-                  _vm._v(
-                    "\n\t                    Problems look mighty small from 150 miles up\n\t                    "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "p",
-                { staticClass: "post-meta" },
+        _c(
+          "div",
+          { staticClass: "col-lg-8 col-md-10 mx-auto" },
+          [
+            _vm._l(_vm.posts, function(post) {
+              return _c(
+                "div",
+                { staticClass: "post-preview" },
                 [
-                  _vm._v("Posted by\n\t                    "),
-                  _c("router-link", { attrs: { to: "/" } }, [
-                    _vm._v("Start Bootstrap")
-                  ]),
-                  _vm._v("\n\t                on September 24, 2019")
+                  _c(
+                    "router-link",
+                    { attrs: { to: "/sample-post/" + post.slug } },
+                    [
+                      _c("h2", { staticClass: "post-title" }, [
+                        _vm._v(
+                          "\n\t                    \t" +
+                            _vm._s(post.title) +
+                            "\n\t                    "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("h3", { staticClass: "post-subtitle" }, [
+                        _vm._v(
+                          "\n\t                    \t" +
+                            _vm._s(post.description) +
+                            "\n\t                    "
+                        )
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "p",
+                    { staticClass: "post-meta" },
+                    [
+                      _vm._v("Posted by\n\t                    "),
+                      _c(
+                        "router-link",
+                        { attrs: { to: "/user/profile/" + post.user.name } },
+                        [_vm._v(_vm._s(post.user.name))]
+                      ),
+                      _vm._v("\n\t                " + _vm._s(post.created_at))
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("hr")
                 ],
                 1
               )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "post-preview" },
-            [
-              _c("router-link", { attrs: { to: "/sample-post" } }, [
-                _c("h2", { staticClass: "post-title" }, [
-                  _vm._v(
-                    "\n\t                    I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.\n\t                    "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "p",
-                { staticClass: "post-meta" },
-                [
-                  _vm._v("Posted by\n\t                    "),
-                  _c("router-link", { attrs: { to: "/" } }, [
-                    _vm._v("Start Bootstrap")
-                  ]),
-                  _vm._v("\n\t                on September 18, 2019")
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "post-preview" },
-            [
-              _c("router-link", { attrs: { to: "/sample-post" } }, [
-                _c("h2", { staticClass: "post-title" }, [
-                  _vm._v(
-                    "\n\t                    Science has not yet mastered prophecy\n\t                    "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("h3", { staticClass: "post-subtitle" }, [
-                  _vm._v(
-                    "\n\t                    We predict too much for the next year and yet far too little for the next ten.\n\t                    "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "p",
-                { staticClass: "post-meta" },
-                [
-                  _vm._v("Posted by\n\t                    "),
-                  _c("router-link", { attrs: { to: "/" } }, [
-                    _vm._v("Start Bootstrap")
-                  ]),
-                  _vm._v("\n\t                on August 24, 2019")
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "post-preview" },
-            [
-              _c("router-link", { attrs: { to: "/sample-post" } }, [
-                _c("h2", { staticClass: "post-title" }, [
-                  _vm._v(
-                    "\n\t                    Failure is not an option\n\t                    "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("h3", { staticClass: "post-subtitle" }, [
-                  _vm._v(
-                    "\n\t                    Many say exploration is part of our destiny, but it’s actually our duty to future generations.\n\t                    "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "p",
-                { staticClass: "post-meta" },
-                [
-                  _vm._v("Posted by\n\t                    "),
-                  _c("router-link", { attrs: { to: "/" } }, [
-                    _vm._v("Start Bootstrap")
-                  ]),
-                  _vm._v("\n\t                on July 8, 2019")
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _vm._m(1)
-        ])
+            }),
+            _vm._v(" "),
+            _vm._m(1)
+          ],
+          2
+        )
       ])
     ]),
     _vm._v(" "),
@@ -38603,6 +38660,163 @@ var staticRenderFns = [
         [_vm._v("Older Posts →")]
       )
     ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CreatePost.vue?vue&type=template&id=20838332&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CreatePost.vue?vue&type=template&id=20838332& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-lg-8 col-md-10 mx-auto" }, [
+          _c("div", { staticClass: "control-group" }, [
+            _c(
+              "div",
+              { staticClass: "form-group floating-label-form-group controls" },
+              [
+                _c("label", [_vm._v("Title")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.title,
+                      expression: "title"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    placeholder: "Title",
+                    required: "",
+                    "data-validation-required-message": "Please enter title"
+                  },
+                  domProps: { value: _vm.title },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.title = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("p", { staticClass: "help-block text-danger" })
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "control-group" }, [
+            _c(
+              "div",
+              { staticClass: "form-group floating-label-form-group controls" },
+              [
+                _c("label", [_vm._v("Description")]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.description,
+                      expression: "description"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    rows: "5",
+                    placeholder: "Post Description",
+                    required: "",
+                    "data-validation-required-message":
+                      "Please Enter Description"
+                  },
+                  domProps: { value: _vm.description },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.description = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("p", { staticClass: "help-block text-danger" })
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("div", { attrs: { id: "success" } }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              attrs: { type: "button", id: "sendMessageButton" },
+              on: { click: _vm.createPost }
+            },
+            [_vm._v("Send")]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("hr")
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "header",
+      {
+        staticClass: "masthead",
+        staticStyle: { "background-image": "url('theme/img/contact-bg.jpg')" }
+      },
+      [
+        _c("div", { staticClass: "overlay" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "container" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-lg-8 col-md-10 mx-auto" }, [
+              _c("div", { staticClass: "page-heading" }, [
+                _c("h1", [_vm._v("Create Post")]),
+                _vm._v(" "),
+                _c("span", { staticClass: "subheading" }, [
+                  _vm._v("Have questions? I have answers.")
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -38715,30 +38929,106 @@ var render = function() {
         _c("div", { staticClass: "col-lg-8 col-md-10 mx-auto" }, [
           _c("p", [_vm._v("Put Credentials to login!")]),
           _vm._v(" "),
+          _c("div", { staticClass: "control-group" }, [
+            _c(
+              "div",
+              { staticClass: "form-group floating-label-form-group controls" },
+              [
+                _c("label", [_vm._v("Email Address")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.email,
+                      expression: "email"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "email",
+                    placeholder: "Email Address",
+                    id: "email",
+                    required: "",
+                    "data-validation-required-message":
+                      "Please enter your email address.",
+                    autocomplete: "off",
+                    value: "imran@gmail.com"
+                  },
+                  domProps: { value: _vm.email },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.email = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("p", { staticClass: "help-block text-danger" })
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "control-group" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "form-group col-xs-12 floating-label-form-group controls"
+              },
+              [
+                _c("label", [_vm._v("Password")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.password,
+                      expression: "password"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "password",
+                    placeholder: "Password",
+                    id: "phone",
+                    required: "",
+                    "data-validation-required-message":
+                      "Please enter your Password.",
+                    value: "password"
+                  },
+                  domProps: { value: _vm.password },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.password = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("p", { staticClass: "help-block text-danger" })
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("div", { attrs: { id: "success" } }),
+          _vm._v(" "),
           _c(
-            "form",
+            "button",
             {
-              attrs: { name: "sentMessage", id: "contactForm", novalidate: "" }
+              staticClass: "btn btn-primary",
+              attrs: { type: "button", id: "sendMessageButton" },
+              on: { click: _vm.submitForm }
             },
-            [
-              _vm._m(1),
-              _vm._v(" "),
-              _vm._m(2),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _c("div", { attrs: { id: "success" } }),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { type: "button", id: "sendMessageButton" },
-                  on: { click: _vm.submitForm }
-                },
-                [_vm._v("Login")]
-              )
-            ]
+            [_vm._v("Login")]
           )
         ])
       ])
@@ -38776,63 +39066,6 @@ var staticRenderFns = [
         ])
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "control-group" }, [
-      _c(
-        "div",
-        { staticClass: "form-group floating-label-form-group controls" },
-        [
-          _c("label", [_vm._v("Email Address")]),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: "email",
-              placeholder: "Email Address",
-              id: "email",
-              required: "",
-              "data-validation-required-message":
-                "Please enter your email address."
-            }
-          }),
-          _vm._v(" "),
-          _c("p", { staticClass: "help-block text-danger" })
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "control-group" }, [
-      _c(
-        "div",
-        {
-          staticClass: "form-group col-xs-12 floating-label-form-group controls"
-        },
-        [
-          _c("label", [_vm._v("Password")]),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: "password",
-              placeholder: "Password",
-              id: "phone",
-              required: "",
-              "data-validation-required-message": "Please enter your Password."
-            }
-          }),
-          _vm._v(" "),
-          _c("p", { staticClass: "help-block text-danger" })
-        ]
-      )
-    ])
   }
 ]
 render._withStripped = true
@@ -38916,22 +39149,6 @@ var render = function() {
                     [
                       _c(
                         "router-link",
-                        {
-                          staticClass: "nav-link",
-                          attrs: { to: "/sample-post" }
-                        },
-                        [_vm._v("Sample Post")]
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "li",
-                    { staticClass: "nav-item" },
-                    [
-                      _c(
-                        "router-link",
                         { staticClass: "nav-link", attrs: { to: "/contact" } },
                         [_vm._v("Contact")]
                       )
@@ -38939,18 +39156,68 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c(
-                    "li",
-                    { staticClass: "nav-item" },
-                    [
-                      _c(
-                        "router-link",
-                        { staticClass: "nav-link", attrs: { to: "/login" } },
-                        [_vm._v("Login")]
+                  _vm.loginStatus
+                    ? _c(
+                        "li",
+                        { staticClass: "nav-item" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "nav-link",
+                              attrs: { to: "/create-post" }
+                            },
+                            [_vm._v("Create Post")]
+                          )
+                        ],
+                        1
                       )
-                    ],
-                    1
-                  )
+                    : _c(
+                        "li",
+                        { staticClass: "nav-item" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "nav-link",
+                              attrs: { to: "/login-form" }
+                            },
+                            [_vm._v("Login")]
+                          )
+                        ],
+                        1
+                      ),
+                  _vm._v(" "),
+                  _vm.loginStatus
+                    ? _c(
+                        "li",
+                        { staticClass: "nav-item" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "nav-link",
+                              attrs: { to: "/profile" }
+                            },
+                            [_vm._v("User Name")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.loginStatus
+                    ? _c("li", { staticClass: "nav-item" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger btn-sm",
+                            on: { click: _vm.logout }
+                          },
+                          [_vm._v("Logout")]
+                        )
+                      ])
+                    : _vm._e()
                 ])
               ]
             )
@@ -39016,6 +39283,30 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Profile.vue?vue&type=template&id=3bd692e4&":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Profile.vue?vue&type=template&id=3bd692e4& ***!
+  \**********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SamplePost.vue?vue&type=template&id=e8e0f5d6&":
 /*!*************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SamplePost.vue?vue&type=template&id=e8e0f5d6& ***!
@@ -39031,171 +39322,187 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _c(
+      "header",
+      {
+        staticClass: "masthead",
+        staticStyle: { "background-image": "url('theme/img/post-bg.jpg')" }
+      },
+      [
+        _c("div", { staticClass: "overlay" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "container" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-lg-8 col-md-10 mx-auto" }, [
+              _c("div", { staticClass: "post-heading" }, [
+                _c("h1", [_vm._v(_vm._s(_vm.post.title))]),
+                _vm._v(" "),
+                _c("h2", { staticClass: "subheading" }, [
+                  _vm._v("Problems look mighty small from 150 miles up")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  { staticClass: "meta" },
+                  [
+                    _vm._v("Posted by\n\t            "),
+                    _vm._v(" "),
+                    _vm.post.id
+                      ? _c(
+                          "router-link",
+                          {
+                            attrs: { to: "/user/profile/" + _vm.post.user.name }
+                          },
+                          [
+                            _vm._v(
+                              _vm._s(_vm.post.id ? _vm.post.user.name : "")
+                            )
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v("\n\t            " + _vm._s(_vm.post.created_at))
+                  ],
+                  1
+                )
+              ])
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("article", [
+      _c("div", { staticClass: "container" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-lg-8 col-md-10 mx-auto" }, [
+            _c("h1", [_vm._v(_vm._s(_vm.post.title))]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory."
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science."
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth."
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her."
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us."
+              )
+            ]),
+            _vm._v(" "),
+            _c("h2", { staticClass: "section-heading" }, [
+              _vm._v("The Final Frontier")
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning."
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning."
+              )
+            ]),
+            _vm._v(" "),
+            _c("blockquote", { staticClass: "blockquote" }, [
+              _vm._v(
+                "The dreams of yesterday are the hopes of today and the reality of tomorrow. Science has not yet mastered prophecy. We predict too much for the next year and yet far too little for the next ten."
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "Spaceflights cannot be stopped. This is not the work of any one man or even a group of men. It is a historical process which mankind is carrying out in accordance with the natural laws of human development."
+              )
+            ]),
+            _vm._v(" "),
+            _c("h2", { staticClass: "section-heading" }, [
+              _vm._v("Reaching for the Stars")
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "As we got further and further away, it [the Earth] diminished in size. Finally it shrank to the size of a marble, the most beautiful you can imagine. That beautiful, warm, living object looked so fragile, so delicate, that if you touched it with a finger it would crumble and fall apart. Seeing this has to change a man."
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _c("span", { staticClass: "caption text-muted" }, [
+              _vm._v(
+                "To go places and do things that have never been done before – that’s what living is all about."
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before."
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "As I stand out here in the wonders of the unknown at Hadley, I sort of realize there’s a fundamental truth to our nature, Man must explore, and this is exploration at its greatest."
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(1)
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("hr")
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c(
-        "header",
-        {
-          staticClass: "masthead",
-          staticStyle: { "background-image": "url('theme/img/post-bg.jpg')" }
-        },
-        [
-          _c("div", { staticClass: "overlay" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "container" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-lg-8 col-md-10 mx-auto" }, [
-                _c("div", { staticClass: "post-heading" }, [
-                  _c("h1", [
-                    _vm._v(
-                      "Man must explore, and this is exploration at its greatest"
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("h2", { staticClass: "subheading" }, [
-                    _vm._v("Problems look mighty small from 150 miles up")
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "meta" }, [
-                    _vm._v("Posted by\n\t            "),
-                    _c("a", { attrs: { href: "#" } }, [
-                      _vm._v("Start Bootstrap")
-                    ]),
-                    _vm._v("\n\t            on August 24, 2019")
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c("article", [
-        _c("div", { staticClass: "container" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-lg-8 col-md-10 mx-auto" }, [
-              _c("p", [
-                _vm._v(
-                  "Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory."
-                )
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science."
-                )
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth."
-                )
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her."
-                )
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us."
-                )
-              ]),
-              _vm._v(" "),
-              _c("h2", { staticClass: "section-heading" }, [
-                _vm._v("The Final Frontier")
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning."
-                )
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning."
-                )
-              ]),
-              _vm._v(" "),
-              _c("blockquote", { staticClass: "blockquote" }, [
-                _vm._v(
-                  "The dreams of yesterday are the hopes of today and the reality of tomorrow. Science has not yet mastered prophecy. We predict too much for the next year and yet far too little for the next ten."
-                )
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "Spaceflights cannot be stopped. This is not the work of any one man or even a group of men. It is a historical process which mankind is carrying out in accordance with the natural laws of human development."
-                )
-              ]),
-              _vm._v(" "),
-              _c("h2", { staticClass: "section-heading" }, [
-                _vm._v("Reaching for the Stars")
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "As we got further and further away, it [the Earth] diminished in size. Finally it shrank to the size of a marble, the most beautiful you can imagine. That beautiful, warm, living object looked so fragile, so delicate, that if you touched it with a finger it would crumble and fall apart. Seeing this has to change a man."
-                )
-              ]),
-              _vm._v(" "),
-              _c("a", { attrs: { href: "#" } }, [
-                _c("img", {
-                  staticClass: "img-fluid",
-                  attrs: { src: "img/post-sample-image.jpg", alt: "" }
-                })
-              ]),
-              _vm._v(" "),
-              _c("span", { staticClass: "caption text-muted" }, [
-                _vm._v(
-                  "To go places and do things that have never been done before – that’s what living is all about."
-                )
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before."
-                )
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "As I stand out here in the wonders of the unknown at Hadley, I sort of realize there’s a fundamental truth to our nature, Man must explore, and this is exploration at its greatest."
-                )
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v("Placeholder text by\n\t          "),
-                _c("a", { attrs: { href: "http://spaceipsum.com/" } }, [
-                  _vm._v("Space Ipsum")
-                ]),
-                _vm._v(". Photographs by\n\t          "),
-                _c(
-                  "a",
-                  {
-                    attrs: {
-                      href: "https://www.flickr.com/photos/nasacommons/"
-                    }
-                  },
-                  [_vm._v("NASA on The Commons")]
-                ),
-                _vm._v(".")
-              ])
-            ])
-          ])
-        ])
+    return _c("a", { attrs: { href: "#" } }, [
+      _c("img", {
+        staticClass: "img-fluid",
+        attrs: { src: "img/post-sample-image.jpg", alt: "" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("Placeholder text by\n\t          "),
+      _c("a", { attrs: { href: "http://spaceipsum.com/" } }, [
+        _vm._v("Space Ipsum")
       ]),
-      _vm._v(" "),
-      _c("hr")
+      _vm._v(". Photographs by\n\t          "),
+      _c(
+        "a",
+        { attrs: { href: "https://www.flickr.com/photos/nasacommons/" } },
+        [_vm._v("NASA on The Commons")]
+      ),
+      _vm._v(".")
     ])
   }
 ]
@@ -54784,6 +55091,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/CreatePost.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/CreatePost.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CreatePost_vue_vue_type_template_id_20838332___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CreatePost.vue?vue&type=template&id=20838332& */ "./resources/js/components/CreatePost.vue?vue&type=template&id=20838332&");
+/* harmony import */ var _CreatePost_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreatePost.vue?vue&type=script&lang=js& */ "./resources/js/components/CreatePost.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _CreatePost_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CreatePost_vue_vue_type_template_id_20838332___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CreatePost_vue_vue_type_template_id_20838332___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/CreatePost.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/CreatePost.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/CreatePost.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatePost_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CreatePost.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CreatePost.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatePost_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/CreatePost.vue?vue&type=template&id=20838332&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/CreatePost.vue?vue&type=template&id=20838332& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatePost_vue_vue_type_template_id_20838332___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./CreatePost.vue?vue&type=template&id=20838332& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CreatePost.vue?vue&type=template&id=20838332&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatePost_vue_vue_type_template_id_20838332___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreatePost_vue_vue_type_template_id_20838332___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Footer.vue":
 /*!********************************************!*\
   !*** ./resources/js/components/Footer.vue ***!
@@ -55060,6 +55436,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Profile.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/components/Profile.vue ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Profile_vue_vue_type_template_id_3bd692e4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Profile.vue?vue&type=template&id=3bd692e4& */ "./resources/js/components/Profile.vue?vue&type=template&id=3bd692e4&");
+/* harmony import */ var _Profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Profile.vue?vue&type=script&lang=js& */ "./resources/js/components/Profile.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Profile_vue_vue_type_template_id_3bd692e4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Profile_vue_vue_type_template_id_3bd692e4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Profile.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Profile.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/Profile.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Profile.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Profile.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Profile.vue?vue&type=template&id=3bd692e4&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/Profile.vue?vue&type=template&id=3bd692e4& ***!
+  \****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Profile_vue_vue_type_template_id_3bd692e4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Profile.vue?vue&type=template&id=3bd692e4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Profile.vue?vue&type=template&id=3bd692e4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Profile_vue_vue_type_template_id_3bd692e4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Profile_vue_vue_type_template_id_3bd692e4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/SamplePost.vue":
 /*!************************************************!*\
   !*** ./resources/js/components/SamplePost.vue ***!
@@ -55154,14 +55599,20 @@ var routes = [{
   path: '/about',
   component: __webpack_require__(/*! ./components/About.vue */ "./resources/js/components/About.vue")["default"]
 }, {
-  path: '/sample-post',
+  path: '/sample-post/:slug',
   component: __webpack_require__(/*! ./components/SamplePost.vue */ "./resources/js/components/SamplePost.vue")["default"]
 }, {
   path: '/contact',
   component: __webpack_require__(/*! ./components/Contact.vue */ "./resources/js/components/Contact.vue")["default"]
 }, {
-  path: '/login',
+  path: '/login-form',
   component: __webpack_require__(/*! ./components/Login.vue */ "./resources/js/components/Login.vue")["default"]
+}, {
+  path: '/user/profile/:name',
+  component: __webpack_require__(/*! ./components/Profile.vue */ "./resources/js/components/Profile.vue")["default"]
+}, {
+  path: '/create-post',
+  component: __webpack_require__(/*! ./components/CreatePost.vue */ "./resources/js/components/CreatePost.vue")["default"]
 }, {
   path: '*',
   component: __webpack_require__(/*! ./components/NotFound.vue */ "./resources/js/components/NotFound.vue")["default"]

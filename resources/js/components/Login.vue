@@ -20,25 +20,23 @@
 		  <div class="row">
 		    <div class="col-lg-8 col-md-10 mx-auto">
 		      <p>Put Credentials to login!</p>
-		      <form name="sentMessage" id="contactForm" novalidate>
 		        <div class="control-group">
 		          <div class="form-group floating-label-form-group controls">
 		            <label>Email Address</label>
-		            <input type="email" class="form-control" placeholder="Email Address" id="email" required data-validation-required-message="Please enter your email address.">
+		            <input type="email" class="form-control" placeholder="Email Address" id="email" required data-validation-required-message="Please enter your email address." v-model="email" autocomplete="off" value="imran@gmail.com">
 		            <p class="help-block text-danger"></p>
 		          </div>
 		        </div>
 		        <div class="control-group">
 		          <div class="form-group col-xs-12 floating-label-form-group controls">
 		            <label>Password</label>
-		            <input type="password" class="form-control" placeholder="Password" id="phone" required data-validation-required-message="Please enter your Password.">
+		            <input type="password" class="form-control" placeholder="Password" id="phone" required data-validation-required-message="Please enter your Password." v-model="password" value="password">
 		            <p class="help-block text-danger"></p>
 		          </div>
 		        </div>
 		        <br>
 		        <div id="success"></div>
 		        <button type="button" class="btn btn-primary" id="sendMessageButton" @click="submitForm">Login</button>
-		      </form>
 		    </div>
 		  </div>
 		</div>
@@ -53,7 +51,8 @@
 		props : [],
 		data(){
 			return {
-
+				email : "",
+				password : ""
 			}
 		},
 		mounted(){},
@@ -61,7 +60,19 @@
 		computed : {},
 		methods : {
 			submitForm(){
-				alert('trying to submit form');
+				axios.post('/api/login', {
+					email : this.email,
+					password : this.password
+				}).then(res => {
+					// console.log(res);
+					if(res.status == 200){
+						localStorage.setItem('loggedIn', true);
+						// window.Location('/');
+						window.location.href = "/";
+					}
+				}).catch(err => {
+					alert('invalid Credentials');
+				})
 			}
 		},
 	}

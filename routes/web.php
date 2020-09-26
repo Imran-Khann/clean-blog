@@ -17,4 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+// dd('end of web.php');
+
 Route::get('/{any}', function(){return view('welcome'); })->where('any', '.*');

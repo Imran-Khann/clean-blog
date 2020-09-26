@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\PostController;
+use App\Http\Controllers\API\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// dd('api.php');
+Route::post('login', [LoginController::class, 'login']);
+Route::get('post', [PostController::class, 'index']);
+Route::get('/post/{slug}', [PostController::class, 'show']);
+Route::post('/post', [PostController::class, 'store']);
+
+// dd('end of api.php');
